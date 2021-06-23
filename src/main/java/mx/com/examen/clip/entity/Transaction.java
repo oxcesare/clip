@@ -24,9 +24,9 @@ public class Transaction implements Serializable {
 	private Integer idTransaction;
 
 	private BigDecimal amount;
-	private String clipUser;
-	private Integer cardData;
-	private Date date;
+	private String  clipUser;
+	private String cardData;
+	private String  date;
 	private Integer status;
 
 	public Integer getIdTransaction() {
@@ -53,19 +53,19 @@ public class Transaction implements Serializable {
 		this.clipUser = clipUser;
 	}
 
-	public Integer getCardData() {
+	public String getCardData() {
 		return cardData;
 	}
-
-	public void setCardData(Integer cardData) {
+	
+	public void setCardData(String cardData) {
 		this.cardData = cardData;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-
-	public void setDate(Date date) {
+	
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -83,60 +83,6 @@ public class Transaction implements Serializable {
 				+ ", cardData=" + cardData + ", date=" + date + ", status=" + status + "]";
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((amount == null) ? 0 : amount.hashCode());
-		result = prime * result + ((cardData == null) ? 0 : cardData.hashCode());
-		result = prime * result + ((clipUser == null) ? 0 : clipUser.hashCode());
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((idTransaction == null) ? 0 : idTransaction.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		return result;
-	}
 
-	@Override
-	public boolean equals(Object obj) {
-
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Transaction other = (Transaction) obj;
-		if (amount == null) {
-			if (other.amount != null)
-				return false;
-		} else if (!amount.equals(other.amount))
-			return false;
-		if (cardData == null) {
-			if (other.cardData != null)
-				return false;
-		} else if (!cardData.equals(other.cardData))
-			return false;
-		if (clipUser == null) {
-			if (other.clipUser != null)
-				return false;
-		} else if (!clipUser.equals(other.clipUser))
-			return false;
-		if (date == null) {
-			if (other.date != null)
-				return false;
-		} else if (!date.equals(other.date))
-			return false;
-		if (idTransaction == null) {
-			if (other.idTransaction != null)
-				return false;
-		} else if (!idTransaction.equals(other.idTransaction))
-			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
-			return false;
-		return true;
-	}
 
 }
