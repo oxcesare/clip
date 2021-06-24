@@ -1,5 +1,8 @@
 package mx.com.examen.clip.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import mx.com.examen.clip.entity.Disbursement;
 import mx.com.examen.clip.request.RequestTransaction;
 import mx.com.examen.clip.response.ResponseAllTransactions;
 import mx.com.examen.clip.response.ResponseDisbursement;
@@ -23,6 +27,9 @@ public class TransactionController {
 
 	@Autowired
 	private TransactionServiceImpl transactionServiceImpl;
+	
+	@Autowired
+	private DisbursementServiceImpl disbursementServiceImpl;
 	
 	
 	@GetMapping("/info")
@@ -75,5 +82,22 @@ public class TransactionController {
 		return ResponseEntity.status(HttpStatus.OK).body(responseDisbursement);
 
 	}
+	
+	@GetMapping("/getDisbursement")
+	public ResponseEntity<List<Disbursement>> getDisbursement() {
+
+		List<Disbursement> lsDisbursements = new ArrayList<Disbursement>();
+
+		try {
+			lsDisbursements = disbursementServiceImpl.getAllDisbursements();
+
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(lsDisbursements);
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(lsDisbursements);
+
+	}
+
 
 }

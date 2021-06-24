@@ -20,6 +20,15 @@ public interface TransactionDAO extends CrudRepository<Transaction, Integer> {
 	
 	@Query("SELECT u FROM Transaction u Where u.status=1 order by u.clipUser")
 	List<Transaction> transactionsByClipUser();
+	
+	@Query("SELECT u FROM Transaction u Where u.status=1 order by u.clipUser")
+	List<Transaction> transactionsByClipUserUpdate();
+
+	
+	@Query("SELECT u FROM Transaction u Where u.status=1 order by u.clipUser")
+	List<Transaction> transactionsByClipUserSave();
+
+	
 
 	
 	

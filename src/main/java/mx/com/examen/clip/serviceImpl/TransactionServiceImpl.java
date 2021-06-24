@@ -93,7 +93,7 @@ public class TransactionServiceImpl implements TransactionService {
 		ResponseDataDisbursement respData                         = null;
 		List<ResponseDataDisbursement> lsResponseDataDisbursement = new ArrayList<>();
 		int i													  = 0;
-		Disbursement disbursement                                 = null;
+		
 		
 
 		try {
@@ -111,20 +111,24 @@ public class TransactionServiceImpl implements TransactionService {
 				responseDisbursement.setTimeStamp(Utilerias.getTimeStamp(Utilerias.FECHATIMESTAMP));
 				
 			}
+			else {
+				responseDisbursement.setCode("300");			
+				responseDisbursement.setMessage("Not Record");
+				responseDisbursement.setStatus("-1");
+				responseDisbursement.setTimeStamp(Utilerias.getTimeStamp(Utilerias.FECHATIMESTAMP));
+			}
 			
 			for (String userSet : users) {
 				
 				respData                    = new ResponseDataDisbursement();
 				totalTransactions           = new ArrayList<>();
 				amount					    = BigDecimal.ZERO;
-				disbursement                = new Disbursement();
+				
 				i++;
 				
 				respData.setCliperUser(userSet);
 				respData.setDisbursement("disbursement".concat(String.valueOf(i)));
 				
-				disbursement.setDisbursement("transaction".concat(String.valueOf(i)));
-				disbursement.setClipUser(userSet);
 				
 				for (Transaction transaction : lsTransactions) {					
 					if(userSet.equals(transaction.getClipUser())) {
@@ -132,7 +136,7 @@ public class TransactionServiceImpl implements TransactionService {
 					}
 				}
 				respData.setAmount(amount);
-				disbursement.setAmount(amount);
+				
 				
 				for (Transaction transaction : lsTransactions) {
 					
@@ -140,11 +144,11 @@ public class TransactionServiceImpl implements TransactionService {
 						totalTransactions.add("Transaction".concat(String.valueOf(transaction.getIdTransaction())));
 					}
 				}
-				disbursement.setDate(Utilerias.formatFechaTransaccion(new Date()));
+				
 				respData.setLsTransactions(totalTransactions);
 				lsResponseDataDisbursement.add(respData);
 				
-				disbursementServiceImpl.save(disbursement);
+				
 				
 			}
 			
@@ -158,11 +162,49 @@ public class TransactionServiceImpl implements TransactionService {
 		 * 
 		 */
 		
+		
+		saveDisbursement();
 		updateTransactionStatus();
 
 		return responseDisbursement;
 	}
 
+	
+	
+	
+	public void saveDisbursement() {
+		 
+		List<Transaction> lsTransactionsUp     = new ArrayList<Transaction>();
+		
+		/**
+		 * Actualizar todas las transacciones con estatus 1 a estatus 0 
+		 * para no ser consideradas en el próximo desembolso.
+		 */
+		
+		try {
+			
+			Disbursement disbursement   = null;
+			int i 					    = 0;
+			
+			lsTransactionsUp = transactionDAO.transactionsByClipUserSave();
+			
+			for (Transaction responseDataDisbursement : lsTransactionsUp) {
+				
+				disbursement = new Disbursement();
+				i++;
+				disbursement.setDisbursement("transaction".concat(String.valueOf(i)));
+				disbursement.setClipUser(responseDataDisbursement.getClipUser());
+				disbursement.setAmount(responseDataDisbursement.getAmount());
+				disbursement.setDate(Utilerias.formatFechaTransaccion(new Date()));
+				disbursementServiceImpl.save(disbursement);
+				
+			}
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+		}
+		
+	}
+	
 	
 	
 	public void updateTransactionStatus() {
@@ -178,7 +220,7 @@ public class TransactionServiceImpl implements TransactionService {
 			
 			Transaction transactionDisbursement   = null;
 			
-			lsTransactionsUp = transactionDAO.transactionsByClipUser();
+			lsTransactionsUp = transactionDAO.transactionsByClipUserUpdate();
 			
 			for (Transaction responseDataDisbursement : lsTransactionsUp) {
 				
@@ -195,8 +237,6 @@ public class TransactionServiceImpl implements TransactionService {
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 		}
-		
-		
 		
 	}
 	
