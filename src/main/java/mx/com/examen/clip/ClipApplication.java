@@ -9,8 +9,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 import mx.com.examen.clip.request.RequestTransaction;
-import mx.com.examen.clip.response.ResponseTransaction;
+import mx.com.examen.clip.response.ResponseDisbursement;
 import mx.com.examen.clip.serviceImpl.TransactionServiceImpl;
 import mx.com.examen.clip.utilerias.Utilerias;
 
@@ -42,6 +43,14 @@ public class ClipApplication implements CommandLineRunner{
 		String json = Utilerias.convertToJson(requestTransaction);
 		
 		logger.info(json);
+		
+		ResponseDisbursement responseDisbursement = new ResponseDisbursement();
+		
+		responseDisbursement = transactionServiceImpl.makeDisbursement();
+		
+		System.out.println(responseDisbursement.getMessage());
+		
+		
 		
 	}
 

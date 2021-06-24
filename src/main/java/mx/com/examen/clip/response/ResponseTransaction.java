@@ -39,9 +39,4 @@ public class ResponseTransaction {
 		return "ResponseTransaction [status=" + status + ", timeStamp=" + timeStamp + ", code=" + code + ", message="
 				+ message + "]";
 	}
-	
-	
-	
-	
-
 }
