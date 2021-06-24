@@ -34,7 +34,7 @@ public class TransactionController {
 	
 	@GetMapping("/info")
 	public String hello() {
-		return "Examen Clip -  23 Junio 2021" + "  " + "Autor: César Ricardo Alducin Ruiz";
+		return "Examen Clip -  23 Junio 2021 -  Version 1.0 " + "  " + "Autor: César Ricardo Alducin Ruiz";
 	}
 
 	@PostMapping("/makeTransaction")
