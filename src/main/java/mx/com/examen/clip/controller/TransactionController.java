@@ -73,8 +73,7 @@ public class TransactionController {
 		ResponseDisbursement responseDisbursement = new ResponseDisbursement();
 		
 		try {
-			responseDisbursement = transactionServiceImpl.makeDisbursement();
-			
+			responseDisbursement = transactionServiceImpl.makeDisbursement();			
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDisbursement);
 		}
